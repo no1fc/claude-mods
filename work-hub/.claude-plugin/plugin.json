@@ -1,0 +1,6 @@
+{
+  "name": "work-hub",
+  "version": "0.1.0",
+  "description": "작업 목록·병렬 에이전트 패널, 보안 파일 변경 확인, git 워크트리·PR 템플릿 커맨드",
+  "author": { "name": "no1fc" }
+}
