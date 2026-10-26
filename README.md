@@ -8,6 +8,22 @@ Claude Code에서 쓰는 mod(함수 훅 플러그인) 모음 마켓플레이스�
 
 > Claude Code mod API는 early access라 Claude Code 버전에 따라 동작이 바뀔 수 있습니다. (개발 기준: Claude Code 2.1.308)
 
+## 사전 설정 (필수)
+
+mod(함수 훅)는 아직 early access라, **설치한 플러그인의 mod는 기본적으로 로드되지 않습니다.** `~/.claude/settings.json`에 아래 `env`를 추가하세요(이미 `env`가 있으면 키만 추가):
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1"
+  }
+}
+```
+
+설정 후 새로 시작한 세션부터 적용됩니다. 설정 없이 `/hub`를 실행하면 `Unknown command: /hub`가 나옵니다.
+
+설정 파일 대신 환경변수로 켜도 됩니다(Windows는 `setx CLAUDE_CODE_ENABLE_FUNCTION_HOOKS 1` 후 새 터미널, macOS·Linux는 셸 프로필에 `export CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`).
+
 ## 설치
 
 터미널 세션의 프롬프트에서:
@@ -45,6 +61,14 @@ claude plugin update work-hub
 ```
 
 그다음 실행 중인 세션에서 `/reload-plugins`.
+
+## 문제 해결
+
+| 증상 | 확인할 것 |
+| --- | --- |
+| `Unknown command: /hub` | [사전 설정](#사전-설정-필수)의 `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS`가 빠졌는지. `claude --debug`로 실행하면 디버그 로그에 `hooks module work-hub@claude-mods not loaded` 사유가 남습니다 |
+| `Cannot add marketplace "claude-mods": its network source differs ...` | 이미 같은 이름(`claude-mods`)으로 다른 출처(로컬 폴더 등)가 등록된 상태. 그 출처로 설치돼 있으면 그대로 쓰거나, `claude plugin marketplace remove claude-mods` 후 다시 설치 |
+| Git Bash에서 `claude -p "/hub"`가 경로로 바뀜 | `MSYS_NO_PATHCONV=1 claude -p "/hub"` |
 
 ## work-hub
 
